@@ -6,11 +6,165 @@
  */
 
 // ============================================
+// INTERNATIONALIZATION
+// ============================================
+const TRANSLATIONS = {
+    en: {
+        heroTitle: 'HOT SEAT',
+        heroSubtitle: 'Put your product idea in the hot seat.',
+        heroDescription: 'AI advisors will grill it from every angle. No sugar-coating.',
+        productPlaceholder: 'Describe your product idea in detail. What problem does it solve? Who is it for? How does it work?',
+        taskCritique: 'Critique',
+        taskBrainstorm: 'Brainstorm',
+        taskPMF: 'Find PMF',
+        startButton: 'Take the Hot Seat',
+        settingsTitle: 'Settings',
+        apiKeyLabel: 'OpenAI API Key',
+        apiKeyPlaceholder: 'sk-...',
+        modelLabel: 'Model',
+        modelLow: 'GPT-5 Mini — Low effort (fast)',
+        modelMedium: 'GPT-5 Mini — Medium effort',
+        modelHigh: 'GPT-5 Mini — High effort (thorough)',
+        saveSettings: 'Save',
+        endSession: 'End Session',
+        submitResponse: 'Submit',
+        skipResponse: 'Skip',
+        verdictTitle: 'THE VERDICT',
+        newSession: 'New Session',
+        exportMD: 'Export MD',
+        exportJSON: 'Export JSON',
+        footerPrivacy: 'Your API key never leaves your browser. All calls go directly to OpenAI.',
+        footerBuiltBy: 'Built by',
+        thinking: 'THINKING',
+        response: 'RESPONSE',
+        round: 'ROUND',
+        loadingMessages: [
+            "🔥 Warming up the hot seats...",
+            "📞 Checking who's available to roast your idea...",
+            "📧 Sending urgent calendar invites...",
+            "☕ Bribing advisors with coffee...",
+            "📱 Convincing the VC to put down their phone...",
+            "🎯 Finding experts who won't sugarcoat it...",
+            "💼 Pulling advisors out of meetings..."
+        ],
+        everyoneSeated: "🔥 Everyone's seated. The grilling begins NOW."
+    },
+    'zh-TW': {
+        heroTitle: 'HOT SEAT',
+        heroSubtitle: '把你的產品點子放上烤架',
+        heroDescription: 'AI 顧問會從各個角度拷問它。不留情面。',
+        productPlaceholder: '詳細描述你的產品點子。它解決什麼問題？目標用戶是誰？如何運作？',
+        taskCritique: '批評',
+        taskBrainstorm: '腦力激盪',
+        taskPMF: '找 PMF',
+        startButton: '坐上烤架',
+        settingsTitle: '設定',
+        apiKeyLabel: 'OpenAI API 金鑰',
+        apiKeyPlaceholder: 'sk-...',
+        modelLabel: '模型',
+        modelLow: 'GPT-5 Mini — 低思考（快速）',
+        modelMedium: 'GPT-5 Mini — 中等思考',
+        modelHigh: 'GPT-5 Mini — 高思考（深入）',
+        saveSettings: '儲存',
+        endSession: '結束對話',
+        submitResponse: '送出',
+        skipResponse: '跳過',
+        verdictTitle: '最終裁決',
+        newSession: '新對話',
+        exportMD: '匯出 MD',
+        exportJSON: '匯出 JSON',
+        footerPrivacy: '你的 API 金鑰不會離開瀏覽器。所有請求直接發送至 OpenAI。',
+        footerBuiltBy: '開發者',
+        thinking: '思考中',
+        response: '回應',
+        round: '回合',
+        loadingMessages: [
+            "🔥 烤架正在預熱中...",
+            "📞 確認誰有空來烤你的點子...",
+            "📧 發送緊急會議邀請...",
+            "☕ 用咖啡賄賂顧問們...",
+            "📱 說服 VC 放下手機...",
+            "🎯 尋找不會說客套話的專家...",
+            "💼 把顧問們從會議中拉出來..."
+        ],
+        everyoneSeated: "🔥 所有人就位。烤問開始！"
+    }
+};
+
+function detectLanguage() {
+    const lang = navigator.language || navigator.userLanguage;
+    if (lang.startsWith('zh-TW') || lang.startsWith('zh-Hant') || lang === 'zh') {
+        return 'zh-TW';
+    }
+    return 'en';
+}
+
+const currentLang = detectLanguage();
+const t = TRANSLATIONS[currentLang];
+
+function applyTranslations() {
+    // Hero section
+    const heroTitle = document.querySelector('.hero-title');
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    const heroDescription = document.querySelector('.hero-description');
+    if (heroTitle) heroTitle.textContent = t.heroTitle;
+    if (heroSubtitle) heroSubtitle.textContent = t.heroSubtitle;
+    if (heroDescription) heroDescription.textContent = t.heroDescription;
+
+    // Form
+    const productTextarea = document.getElementById('productIdea');
+    if (productTextarea) productTextarea.placeholder = t.productPlaceholder;
+
+    // Task buttons
+    document.querySelectorAll('.task-btn').forEach(btn => {
+        const task = btn.dataset.task;
+        if (task === 'critique') btn.textContent = t.taskCritique;
+        if (task === 'brainstorm') btn.textContent = t.taskBrainstorm;
+        if (task === 'find-pmf') btn.textContent = t.taskPMF;
+    });
+
+    // Start button
+    const startBtn = document.getElementById('startBtn');
+    if (startBtn) startBtn.textContent = t.startButton;
+
+    // Settings
+    const settingsTitle = document.querySelector('.settings-title');
+    if (settingsTitle) settingsTitle.textContent = t.settingsTitle;
+
+    // Model options
+    const modelSelect = document.getElementById('modelSelect');
+    if (modelSelect) {
+        modelSelect.options[0].textContent = t.modelLow;
+        modelSelect.options[1].textContent = t.modelMedium;
+        modelSelect.options[2].textContent = t.modelHigh;
+    }
+
+    // End session
+    const endBtn = document.querySelector('.end-session-btn');
+    if (endBtn) endBtn.textContent = t.endSession;
+
+    // Response buttons
+    const submitBtn = document.querySelector('.response-actions .btn-primary');
+    const skipBtn = document.querySelector('.response-actions .btn-ghost');
+    if (submitBtn) submitBtn.textContent = t.submitResponse;
+    if (skipBtn) skipBtn.textContent = t.skipResponse;
+
+    // Summary
+    const verdictTitle = document.querySelector('.summary-title');
+    if (verdictTitle) verdictTitle.textContent = t.verdictTitle;
+
+    // Footer
+    const footerP = document.querySelector('.footer p:first-child');
+    if (footerP) footerP.textContent = t.footerPrivacy;
+}
+
+// ============================================
 // STATE
 // ============================================
 const state = {
     apiKey: localStorage.getItem('hotseat_api_key') || '',
     model: localStorage.getItem('hotseat_model') || 'gpt-5-mini:low',
+    lang: currentLang,
     taskType: 'critique',
     productIdea: '',
     advisors: [],
@@ -511,11 +665,11 @@ function createMessageElement(advisor, round) {
                     <span class="message-meta">Round ${round}</span>
                 </div>
                 <div class="message-thinking" style="display: none;">
-                    <div class="thinking-label">💭 THINKING</div>
+                    <div class="thinking-label">💭 ${t.thinking}</div>
                     <div class="thinking-content"></div>
                 </div>
                 <div class="message-response" style="display: none;">
-                    <div class="response-label">💬 RESPONSE</div>
+                    <div class="response-label">💬 ${t.response}</div>
                     <div class="message-text"></div>
                 </div>
             </div>
@@ -616,12 +770,12 @@ function renderMarkdown(text) {
 
 function addRoundDivider(round) {
     $('messages').insertAdjacentHTML('beforeend', `
-        <div class="round-divider"><span>ROUND ${round}</span></div>
+        <div class="round-divider"><span>${t.round} ${round}</span></div>
     `);
 }
 
 function updateRound(round) {
-    $('roundBadge').textContent = `ROUND ${round}`;
+    $('roundBadge').textContent = `${t.round} ${round}`;
 }
 
 function setAdvisorSpeaking(name) {
@@ -712,16 +866,8 @@ async function startSession() {
     });
 
     try {
-        // Fun loading messages while assembling
-        const funMessages = [
-            "🔥 Warming up the hot seats...",
-            "📞 Checking who's available to roast your idea...",
-            "📧 Sending urgent calendar invites...",
-            "☕ Bribing advisors with coffee...",
-            "📱 Convincing the VC to put down their phone...",
-            "🎯 Finding experts who won't sugarcoat it...",
-            "💼 Pulling advisors out of meetings..."
-        ];
+        // Fun loading messages while assembling (translated)
+        const funMessages = t.loadingMessages;
         let msgIndex = 0;
         const msgInterval = setInterval(() => {
             msgIndex = (msgIndex + 1) % funMessages.length;
@@ -816,7 +962,7 @@ async function startSession() {
             });
         }
 
-        showLoading("🔥 Everyone's seated. The grilling begins NOW.");
+        showLoading(t.everyoneSeated);
         await sleep(600);
 
         // Store selection thinking for display
@@ -1120,6 +1266,9 @@ function newSession() {
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Apply translations based on browser language
+    applyTranslations();
+
     // Load settings
     if (state.apiKey) $('apiKey').value = state.apiKey;
     $('modelSelect').value = state.model;
