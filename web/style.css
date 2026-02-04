@@ -1116,6 +1116,21 @@ input, textarea, select {
     color: var(--gray-600);
 }
 
+.footer-credit {
+    margin-top: var(--space-3);
+    font-size: 0.8rem;
+    color: var(--gray-500);
+}
+
+.footer-credit a {
+    color: var(--hot);
+    text-decoration: none;
+}
+
+.footer-credit a:hover {
+    text-decoration: underline;
+}
+
 /* ============================================
    LOADING OVERLAY
    ============================================ */

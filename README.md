@@ -22,7 +22,7 @@ Hot Seat puts your product ideas through an intense interrogation. Instead of ge
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/hot-seat
+git clone https://github.com/Ying-Kai-Liao/hot-seat
 cd hot-seat
 
 # Start the local server
@@ -177,4 +177,4 @@ MIT
 
 ---
 
-Built with 🔥 and Claude
+Built by [Ying-Kai Liao](https://github.com/Ying-Kai-Liao) with 🔥 and Claude
