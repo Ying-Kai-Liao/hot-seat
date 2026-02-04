@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Seat | Put Your Idea to the Test</title>
+    <meta name="description" content="Get brutally honest feedback from AI advisors who will grill your product idea from every angle.">
+
+    <!-- Fonts: Bold condensed for impact, clean sans for readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background effects -->
+    <div class="bg-noise"></div>
+    <div class="bg-vignette"></div>
+    <div class="heat-glow" id="heatGlow"></div>
+
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <a href="/" class="logo">
+                <span class="logo-mark">🔥</span>
+                <span class="logo-text">HOT SEAT</span>
+            </a>
+
+            <nav class="header-nav">
+                <a href="https://github.com/yourusername/hot-seat" target="_blank" class="nav-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <button class="settings-trigger" onclick="toggleSettings()" aria-label="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-backdrop" onclick="toggleSettings()"></div>
+            <div class="settings-drawer">
+                <div class="settings-header">
+                    <h3>Settings</h3>
+                    <button class="settings-close" onclick="toggleSettings()">&times;</button>
+                </div>
+
+                <div class="settings-body">
+                    <div class="settings-section">
+                        <div class="section-label">
+                            <span class="label-icon">🔑</span>
+                            API Configuration
+                        </div>
+
+                        <div class="field">
+                            <label for="apiKey">OpenAI API Key</label>
+                            <div class="input-with-action">
+                                <input type="password" id="apiKey" placeholder="sk-..." spellcheck="false">
+                                <button class="input-action" onclick="toggleKeyVisibility()" aria-label="Toggle visibility">
+                                    <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="field-hint">Your key is stored locally. Never sent to our servers.</p>
+                        </div>
+
+                        <div class="field">
+                            <label for="modelSelect">Model</label>
+                            <select id="modelSelect">
+                                <option value="gpt-5-mini:low">GPT-5 Mini — Low effort (fast)</option>
+                                <option value="gpt-5-mini:medium">GPT-5 Mini — Medium effort</option>
+                                <option value="gpt-5-mini:high">GPT-5 Mini — High effort (thorough)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-full" onclick="saveSettings()">
+                        Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Hero / Input Section -->
+            <section class="hero" id="heroSection">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        PUT YOUR IDEA<br>
+                        <span class="highlight">IN THE HOT SEAT</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        AI advisors will grill your product idea from every angle.
+                        No sugar-coating. No hand-holding. Just brutal honesty.
+                    </p>
+                </div>
+
+                <div class="input-card">
+                    <textarea
+                        id="productIdea"
+                        class="idea-textarea"
+                        placeholder="Describe your product idea...
+
+What is it? Who is it for? What problem does it solve?"
+                        rows="5"
+                    ></textarea>
+
+                    <div class="input-controls">
+                        <div class="mode-selector">
+                            <span class="mode-label">Mode:</span>
+                            <div class="mode-buttons">
+                                <button class="mode-btn active" data-task="critique" title="Find weaknesses and risks">
+                                    <span class="mode-icon">⚡</span>
+                                    <span class="mode-name">Critique</span>
+                                </button>
+                                <button class="mode-btn" data-task="brainstorm" title="Generate variations">
+                                    <span class="mode-icon">💡</span>
+                                    <span class="mode-name">Brainstorm</span>
+                                </button>
+                                <button class="mode-btn" data-task="find-pmf" title="Analyze product-market fit">
+                                    <span class="mode-icon">🎯</span>
+                                    <span class="mode-name">Find PMF</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-hot" id="startBtn" onclick="startSession()">
+                            <span class="btn-text">Take the Hot Seat</span>
+                            <span class="btn-icon">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="hero-hint">Press <kbd>⌘</kbd> + <kbd>Enter</kbd> to start</p>
+            </section>
+
+            <!-- Session Section (hidden until started) -->
+            <section class="session" id="sessionSection" style="display: none;">
+                <!-- Advisors Bar -->
+                <div class="advisors-bar">
+                    <div class="advisors-label">YOUR ADVISORS</div>
+                    <div class="advisors-list" id="advisorsList">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Discussion Feed -->
+                <div class="discussion" id="discussion">
+                    <div class="discussion-header">
+                        <span class="round-badge" id="roundBadge">ROUND 1</span>
+                        <button class="end-session-btn" onclick="endSession()">End Session</button>
+                    </div>
+
+                    <div class="messages" id="messages">
+                        <!-- Messages populated dynamically -->
+                    </div>
+
+                    <!-- Founder Response Area -->
+                    <div class="founder-response" id="founderResponse" style="display: none;">
+                        <div class="response-prompt" id="responsePrompt"></div>
+                        <div class="response-input-wrapper">
+                            <textarea
+                                id="founderInput"
+                                class="response-textarea"
+                                placeholder="Your response..."
+                                rows="2"
+                            ></textarea>
+                            <div class="response-actions">
+                                <button class="btn btn-ghost" onclick="skipResponse()">Skip</button>
+                                <button class="btn btn-hot btn-sm" onclick="submitResponse()">Respond</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary (shown at end) -->
+                <div class="summary" id="summary" style="display: none;">
+                    <div class="summary-header">
+                        <h2>SESSION COMPLETE</h2>
+                        <p>Here's what your advisors concluded</p>
+                    </div>
+
+                    <div class="summary-content" id="summaryContent">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                    <div class="summary-actions">
+                        <button class="btn btn-outline" onclick="downloadSession('markdown')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Download (.md)
+                        </button>
+                        <button class="btn btn-outline" onclick="downloadSession('json')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Download (.json)
+                        </button>
+                        <button class="btn btn-hot" onclick="newSession()">
+                            <span class="btn-icon">+</span>
+                            New Session
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Your API key never leaves your browser. All calls go directly to OpenAI.</p>
+            <p class="footer-links">
+                <a href="https://github.com/yourusername/hot-seat">Open Source</a>
+                <span class="separator">·</span>
+                <a href="https://github.com/yourusername/hot-seat/issues">Report Issue</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-flame">🔥</div>
+            <p class="loading-text" id="loadingText">Heating up...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
